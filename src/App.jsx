@@ -1,5 +1,5 @@
 import './App.css';
-import React, { useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import CalculationResult from './components/CalculationResult';
 import CalculatorInputField from './components/CalculatorInputField';
 import { LOCAL_STORAGE_EXPRESSION_KEY } from './constants';
@@ -7,15 +7,14 @@ import useExpression from './hooks/useExpression';
 import { CustomLocalStorage } from './utils/CustomLocalStorage';
 import useUnload from './hooks/useUnload';
 import { useBeforeunload } from './hooks/useBeforeunload';
+import {
+  ExpressionDispatchContext,
+  ExpressionStateContext,
+} from './contexts/ExpressionContext';
 
 function App() {
-  const {
-    expression,
-    setExpression,
-    handleClickAC,
-    handleClickDigit,
-    handleClickOperator,
-  } = useExpression();
+  const expression = useContext(ExpressionStateContext);
+  const { setExpression } = useContext(ExpressionDispatchContext);
 
   useEffect(() => {
     const expression = CustomLocalStorage.load(LOCAL_STORAGE_EXPRESSION_KEY);
@@ -33,12 +32,8 @@ function App() {
   return (
     <div id="app">
       <div className="calculator">
-        <CalculationResult expression={expression} />
-        <CalculatorInputField
-          handleClickAC={handleClickAC}
-          handleClickDigit={handleClickDigit}
-          handleClickOperator={handleClickOperator}
-        />
+        <CalculationResult />
+        <CalculatorInputField />
       </div>
     </div>
   );

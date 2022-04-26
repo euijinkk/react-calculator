@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { ExpressionStateContext } from '../contexts/ExpressionContext';
 
-function CalculationResult({ expression }) {
+function CalculationResult() {
+  const expression = useContext(ExpressionStateContext);
   const { prevNumber, operator, nextNumber } = expression;
 
   return <h1 id="total">{prevNumber + operator + nextNumber || '0'}</h1>;
